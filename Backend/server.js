@@ -1,6 +1,7 @@
 const express = require('express');
 const Razorpay = require('razorpay');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 app.use(cors());
@@ -27,6 +28,13 @@ app.post('/create-order', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+const _dirname = path.resolve()
+app.use(express.static(path.join(_dirname, "/Frontend/dist")))
+app.get('/', (_, res) => {
+    res.sendFile(path.resolve(_dirname, "Frontend", "dist", "index.html"))
+})
+
 
 app.listen(5000, () => {
   console.log('Server running on http://localhost:5000');
